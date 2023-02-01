@@ -44,7 +44,7 @@ User.init(
       },
     },
   },
-  {
+  {  // this object will accept configure options for the table.
     sequelize,
     timestamps: false,
     freezeTableName: true,
