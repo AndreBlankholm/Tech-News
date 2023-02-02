@@ -1,20 +1,25 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+
+
 // Get api/users
-router.get("./", (req, res) => {
+router.get("/", (req, res) => {
   // Access our User model and run. .findAll() method)
-  User.findAll() // same thing as and SQL query SELECT * FROM users;
-    .then((dbUserData = res.json(dbUserData)))
-    .cath((err) => {
+  User.findAll({
+    attributes: { exclude: ['password'] }
+  })
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
 });
 
 // Get api/users/1
-router.get("./:id", (req, res) => {
+router.get("/:id", (req, res) => {
   User.findOne({
+    attributes: { exclude: [ password ]},
     where: {
       id: req.params.id,
     },
