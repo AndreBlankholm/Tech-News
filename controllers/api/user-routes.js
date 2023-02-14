@@ -66,21 +66,24 @@ router.post('/', (req, res) => {
     email: req.body.email,
     password: req.body.password
   })
-  .then(dbUserData => {  // this holds session (cookie data)
+  .then(dbUserData => {
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
       req.session.loggedIn = true;
-      //We want to make sure the session is created before we send the response back, so we're wrapping the variables in a callback. The req.session.save() method will initiate the creation of the session and then run the callback function once complete.
+
       res.json(dbUserData);
     });
   })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
 
 
 // create an login route http://localhost:3001/api/users/login
 router.post('/login', (req, res) => {
-  // expects {email: 'lernantino@gmail.com', password: 'password1234'}
   User.findOne({
     where: {
       email: req.body.email
@@ -88,16 +91,19 @@ router.post('/login', (req, res) => {
   }).then(dbUserData => {
     if (!dbUserData) {
       res.status(400).json({ message: 'No user with that email address!' });
+      console.debug('test');
       return;
     }
 
     const validPassword = dbUserData.checkPassword(req.body.password);
+
     if (!validPassword) {
       res.status(400).json({ message: 'Incorrect password!' });
+      console.debug('test2');
       return;
     }
 
-    req.session.save(() => { // this holds session (cookie data)
+    req.session.save(() => {
       // declare session variables
       req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
@@ -106,6 +112,17 @@ router.post('/login', (req, res) => {
       res.json({ user: dbUserData, message: 'You are now logged in!' });
     });
   });
+});
+
+router.post ('/logout', (req, res) => {
+  if (req.session.loggedIn) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  }
+  else {
+    res.status(404).end();
+  }
 });
 
 // Put api/users/1
@@ -151,5 +168,7 @@ router.delete('/:id', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+
 
 module.exports = router;
