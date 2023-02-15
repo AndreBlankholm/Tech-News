@@ -14,6 +14,12 @@
           <a href="/">Just Tech News</a>
         </h1>
         {{#if loggedIn}}
+          <h3> You are currently logged in!</h3>
+        {{/if}}
+
+        <h3> log in for extra features!</h3>
+
+        {{#if loggedIn}}
           <button id="logout" class="btn-no-style">logout</button>
         {{else}}
           <a href="/login">login</a>
