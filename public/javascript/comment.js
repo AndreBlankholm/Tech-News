@@ -1,24 +1,21 @@
 async function commentFormHandler(event) {
   event.preventDefault();
-  //the following code to capture the form submission:
-  const comment_text = document
-    .querySelector('textarea[name="comment-body"]')
-    .value.trim();
 
-  const post_id = window.location.toString().split("/")[
-    window.location.toString().split("/").length - 1
+  const comment_text = document.querySelector('textarea[name="comment-body"]').value.trim();
+  const post_id = window.location.toString().split('/')[
+    window.location.toString().split('/').length - 1
   ];
 
   if (comment_text) {
-    const response = await fetch("/api/comments", {
-      method: "POST",
+    const response = await fetch('/api/comments', {
+      method: 'POST',
       body: JSON.stringify({
         post_id,
-        comment_text,
+        comment_text
       }),
       headers: {
-        "Content-Type": "application/json",
-      },
+        'Content-Type': 'application/json'
+      }
     });
 
     if (response.ok) {
@@ -29,4 +26,5 @@ async function commentFormHandler(event) {
   }
 }
 
-document.querySelector(".comment-form").addEventListener("submit", commentFormHandler);
+document.querySelector('.comment-form').addEventListener('submit', commentFormHandler);
+
