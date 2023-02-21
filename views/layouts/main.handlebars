@@ -16,14 +16,16 @@
         {{#if loggedIn}}
           <h3> You are currently logged in!</h3>
         {{/if}}
+        
+        <nav>
+          {{#if loggedIn}}
+            <a href="/dashboard">dashboard</a>
+            <button id="logout" class="btn-no-style">logout</button>
+          {{else}}
+            <a href="/login">login</a>
+          {{/if}}
+        </nav>
 
-        <h3> log in for extra features!</h3>
-
-        {{#if loggedIn}}
-          <button id="logout" class="btn-no-style">logout</button>
-        {{else}}
-          <a href="/login">login</a>
-        {{/if}}
       </header>
       <main>
         {{{body}}}
