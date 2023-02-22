@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   Post.findAll({
     where: {
       // use the ID from the session
-      user_id: req.session.user_id
+      user_id: req.session.user_id // added so that the query uses the id that is saved on the seesion data/ npw have to update the template to use it
     },
     attributes: [
       'id',
